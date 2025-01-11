@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Paper,
   Table,
@@ -15,9 +15,33 @@ import {
 import MoreVertIcon from '@mui/icons-material/MoreVert';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { useNavigate } from 'react-router-dom';
+import { clientService } from '../services/api';
 
 function ClientTable() {
   const navigate = useNavigate();
+  const [clients, setClients] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetchClients();
+  }, []);
+
+  const fetchClients = async () => {
+    setLoading(true);
+    try {
+      const result = await clientService.getClients();
+      if (result.success) {
+        setClients(result.data);
+      } else {
+        setError(result.error);
+      }
+    } catch (err) {
+      setError('Failed to fetch clients');
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const getStatusColor = (status) => {
     switch (status) {
@@ -27,17 +51,6 @@ function ClientTable() {
       default: return '#757575';
     }
   };
-
-  const clients = [
-    {
-      name: 'John Doe',
-      applicationDate: '2024-01-15',
-      workPermitDays: 120,
-      paymentStatus: 'Paid',
-      nextDueDate: '2024-04-15'
-    },
-    // Add more client data as needed
-  ];
 
   return (
     <TableContainer component={Paper} sx={{ mt: 3, borderRadius: 3 }}>

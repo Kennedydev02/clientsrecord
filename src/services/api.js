@@ -1,5 +1,5 @@
 import { auth } from '../firebase';
-import { getFirestore, doc, getDoc, updateDoc, collection, addDoc } from 'firebase/firestore';
+import { getFirestore, doc, getDoc, updateDoc, collection, addDoc, getDocs, query, where } from 'firebase/firestore';
 import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
 
 const db = getFirestore();
@@ -57,6 +57,47 @@ export const clientService = {
         payments.push({ id: doc.id, ...doc.data() });
       });
       return { success: true, data: payments };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  },
+
+  async getClients(filters = {}) {
+    try {
+      let q = collection(db, 'clients');
+      
+      if (filters.status) {
+        q = query(q, where('status', '==', filters.status));
+      }
+      
+      if (filters.dateRange) {
+        q = query(q, 
+          where('applicationDate', '>=', filters.dateRange[0]),
+          where('applicationDate', '<=', filters.dateRange[1])
+        );
+      }
+
+      const querySnapshot = await getDocs(q);
+      const clients = [];
+      querySnapshot.forEach((doc) => {
+        clients.push({ id: doc.id, ...doc.data() });
+      });
+      
+      return { success: true, data: clients };
+    } catch (error) {
+      return { success: false, error: error.message };
+    }
+  },
+
+  async getClientTimeline(clientId) {
+    try {
+      const timelineRef = collection(db, 'clients', clientId, 'timeline');
+      const querySnapshot = await getDocs(timelineRef);
+      const timeline = [];
+      querySnapshot.forEach((doc) => {
+        timeline.push({ id: doc.id, ...doc.data() });
+      });
+      return { success: true, data: timeline };
     } catch (error) {
       return { success: false, error: error.message };
     }
