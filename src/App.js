@@ -1,36 +1,57 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Box } from '@mui/material';
-import { AuthProvider } from './contexts/AuthContext';
+import { Box, CssBaseline } from '@mui/material';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
 import HomePage from './components/HomePage';
-import Login from './components/Login';
-import Dashboard from './components/Dashboard';
-import ClientDetails from './components/ClientDetails';
+import AboutUs from './components/pages/AboutUs';
+import Testimonials from './components/pages/Testimonials';
+import ContactUs from './components/pages/ContactUs';
 import CaregiverTraining from './components/services/CaregiverTraining';
+import NewcomerSupport from './components/services/NewcomerSupport';
+import HousingAssistance from './components/services/HousingAssistance';
+import DocumentationSupport from './components/services/DocumentationSupport';
+import EmploymentServices from './components/services/EmploymentServices';
+import EducationSupport from './components/services/EducationSupport';
+import Login from './components/Login';
+import { AuthProvider } from './contexts/AuthContext';
+import Dashboard from './components/Dashboard';
 
 function App() {
   return (
     <Router>
       <AuthProvider>
-        <Box sx={{ 
-          display: 'flex', 
-          flexDirection: 'column', 
-          minHeight: '100vh'
-        }}>
+        <CssBaseline />
+        <Box 
+          sx={{ 
+            display: 'flex',
+            flexDirection: 'column',
+            minHeight: '100vh',
+            position: 'relative'
+          }}
+        >
           <Navbar />
-          <Box sx={{ 
-            mt: '64px',
-            flex: 1,
-            bgcolor: '#f5f5f5' // Light background for content
-          }}>
+          <Box 
+            component="main" 
+            sx={{ 
+              flexGrow: 1,
+              position: 'relative',
+              zIndex: 0
+            }}
+          >
             <Routes>
               <Route path="/" element={<HomePage />} />
               <Route path="/login" element={<Login />} />
-              <Route path="/dashboard" element={<Dashboard />} />
-              <Route path="/clients/:id" element={<ClientDetails />} />
+              <Route path="/about" element={<AboutUs />} />
+              <Route path="/testimonials" element={<Testimonials />} />
+              <Route path="/contact" element={<ContactUs />} />
               <Route path="/services/caregiver-training" element={<CaregiverTraining />} />
+              <Route path="/services/newcomer-support" element={<NewcomerSupport />} />
+              <Route path="/services/housing-assistance" element={<HousingAssistance />} />
+              <Route path="/services/documentation-support" element={<DocumentationSupport />} />
+              <Route path="/services/employment-services" element={<EmploymentServices />} />
+              <Route path="/services/education-support" element={<EducationSupport />} />
+              <Route path="/dashboard" element={<Dashboard />} />
             </Routes>
           </Box>
           <Footer />

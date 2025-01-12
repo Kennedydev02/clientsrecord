@@ -1,176 +1,202 @@
 import React from 'react';
-import { 
-  Box, 
-  Button, 
-  Container, 
-  Typography, 
-  Grid, 
-  Card, 
-  CardContent, 
-  CardActions,
-  Stack 
-} from '@mui/material';
+import { Container, Typography, Grid, Button, Box, Paper } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
-import HomeIcon from '@mui/icons-material/Home';
-import ArticleIcon from '@mui/icons-material/Article';
-import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
+import AddIcon from '@mui/icons-material/Add';
 import FlightLandIcon from '@mui/icons-material/FlightLand';
-import SchoolIcon from '@mui/icons-material/School';
+import HomeIcon from '@mui/icons-material/Home';
+import DescriptionIcon from '@mui/icons-material/Description';
 import WorkIcon from '@mui/icons-material/Work';
+import SchoolIcon from '@mui/icons-material/School';
+import LocalHospitalIcon from '@mui/icons-material/LocalHospital';
+import PeopleIcon from '@mui/icons-material/People';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import useScrollToTop from '../hooks/useScrollToTop';
 
-function HomePage() {
+const HomePage = () => {
+  useScrollToTop();
   const navigate = useNavigate();
-
-  const allServices = [
+  
+  const services = [
     {
       title: 'Caregiver Training',
-      description: [
-        '75hr Basic Training/HCA',
-        'Nurse Delegation',
-        'CPR/AED & First Aid',
-        'Continuous Education (CEs)',
-        'Basic Life Support (BLS)'
-      ],
-      icon: <LocalHospitalIcon sx={{ fontSize: 40, color: '#4CAF50' }} />,
-      link: '/caregiver-training'
+      description: 'Comprehensive training programs for caregivers...',
+      icon: <LocalHospitalIcon sx={{ fontSize: 40, color: '#2E8B57' }} />,
+      path: '/services/caregiver-training'
     },
     {
       title: 'Newcomer Support',
-      description: [
-        'Airport pick-up service',
-        'Full board accommodation',
-        'Community integration support',
-        'Cultural orientation'
-      ],
-      icon: <FlightLandIcon sx={{ fontSize: 40, color: '#4CAF50' }} />,
-      link: '/newcomer-support'
+      description: 'Assistance for newcomers transitioning to the United States...',
+      icon: <PeopleIcon sx={{ fontSize: 40, color: '#2E8B57' }} />,
+      path: '/services/newcomer-support'
     },
     {
       title: 'Housing Assistance',
-      description: [
-        'Temporary housing options',
-        'Rental assistance',
-        'Housing search support',
-        'Accommodation arrangements'
-      ],
-      icon: <HomeIcon sx={{ fontSize: 40, color: '#4CAF50' }} />,
-      link: '/housing'
+      description: 'Help finding suitable housing and accommodation...',
+      icon: <HomeIcon sx={{ fontSize: 40, color: '#2E8B57' }} />,
+      path: '/services/housing-assistance'
     },
     {
       title: 'Documentation Support',
-      description: [
-        'Work permit assistance',
-        'License applications',
-        'Document processing',
-        'Application guidance'
-      ],
-      icon: <ArticleIcon sx={{ fontSize: 40, color: '#4CAF50' }} />,
-      link: '/documentation'
+      description: 'Assistance with document preparation and processing...',
+      icon: <DescriptionIcon sx={{ fontSize: 40, color: '#2E8B57' }} />,
+      path: '/services/documentation-support'
     },
     {
       title: 'Employment Services',
-      description: [
-        'Job search assistance',
-        'Resume writing',
-        'Interview preparation',
-        'Career counseling'
-      ],
-      icon: <WorkIcon sx={{ fontSize: 40, color: '#4CAF50' }} />,
-      link: '/employment'
+      description: 'Job search and employment preparation support...',
+      icon: <WorkIcon sx={{ fontSize: 40, color: '#2E8B57' }} />,
+      path: '/services/employment-services'
     },
     {
       title: 'Education Support',
-      description: [
-        'School enrollment assistance',
-        'Educational guidance',
-        'Training programs',
-        'Skills development'
-      ],
-      icon: <SchoolIcon sx={{ fontSize: 40, color: '#4CAF50' }} />,
-      link: '/education'
+      description: 'Educational guidance and resources...',
+      icon: <SchoolIcon sx={{ fontSize: 40, color: '#2E8B57' }} />,
+      path: '/services/education-support'
     }
   ];
 
   return (
-    <Box>
-      {/* Hero Section */}
+    <Box 
+      component="main"
+      sx={{ 
+        width: '100%',
+        minHeight: '100vh',
+        paddingTop: '80px',
+        backgroundColor: '#f8f9fa',
+        position: 'relative',
+        zIndex: 0
+      }}
+    >
       <Box 
         sx={{ 
-          bgcolor: '#1a237e',
+          width: '100%',
+          backgroundColor: '#1a237e',
           color: 'white',
-          py: 8,
-          mb: 6,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          padding: { xs: '40px 0', md: '80px 0' },
+          marginBottom: { xs: 4, md: 8 }
         }}
       >
         <Container maxWidth="lg">
-          <Grid container spacing={4} alignItems="center">
-            <Grid item xs={12} md={8}>
-              <Typography variant="h2" component="h1" gutterBottom>
-                HUDUMA CENTER
-              </Typography>
-              <Typography variant="h5" sx={{ mb: 4, color: '#4CAF50' }}>
-                SUPPORTING COMMUNITIES, EMPOWERING LIVES
-              </Typography>
-            </Grid>
-          </Grid>
+          <Typography 
+            variant="h1" 
+            sx={{ 
+              fontSize: { xs: '2rem', md: '3.5rem' },
+              fontWeight: 700,
+              textAlign: 'center',
+              marginBottom: 2
+            }}
+          >
+            Welcome to Huduma Center
+          </Typography>
+          <Typography 
+            variant="h2" 
+            sx={{ 
+              fontSize: { xs: '1.2rem', md: '1.5rem' },
+              textAlign: 'center',
+              fontWeight: 400,
+              opacity: 0.9
+            }}
+          >
+            Supporting Your Journey Every Step of the Way
+          </Typography>
         </Container>
       </Box>
 
-      {/* Services Section */}
-      <Container maxWidth="lg" sx={{ py: 8 }}>
-        <Typography variant="h3" component="h2" textAlign="center" gutterBottom>
+      <Container 
+        sx={{ 
+          py: 8,
+          mb: 10
+        }}
+      >
+        <Typography 
+          variant="h3" 
+          align="center" 
+          sx={{ 
+            color: '#1a237e',
+            mb: 6,
+            fontWeight: 600,
+            position: 'relative',
+            '&::after': {
+              content: '""',
+              position: 'absolute',
+              bottom: -16,
+              left: '50%',
+              transform: 'translateX(-50%)',
+              width: 80,
+              height: 4,
+              backgroundColor: '#000051',
+              borderRadius: 2
+            }
+          }}
+        >
           Our Services
-        </Typography>
-        <Typography variant="h6" textAlign="center" color="text.secondary" sx={{ mb: 6 }}>
-          Comprehensive support services for our community
         </Typography>
         
         <Grid container spacing={4}>
-          {allServices.map((service, index) => (
-            <Grid item xs={12} md={6} lg={4} key={index}>
-              <Card sx={{ 
-                height: '100%', 
-                display: 'flex', 
-                flexDirection: 'column',
-                '&:hover': { boxShadow: 6 }
-              }}>
-                <CardContent sx={{ flexGrow: 1 }}>
-                  <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                    {service.icon}
-                    <Typography variant="h5" component="h3" sx={{ ml: 1 }}>
-                      {service.title}
-                    </Typography>
-                  </Box>
-                  <Box component="ul" sx={{ pl: 2 }}>
-                    {service.description.map((item, idx) => (
-                      <Typography component="li" key={idx} sx={{ mb: 1 }}>
-                        {item}
-                      </Typography>
-                    ))}
-                  </Box>
-                </CardContent>
-                <CardActions sx={{ p: 2, pt: 0 }}>
-                  <Button 
-                    variant="contained" 
-                    fullWidth
-                    sx={{ 
-                      bgcolor: '#4CAF50', 
-                      '&:hover': { bgcolor: '#388E3C' }
-                    }}
-                    onClick={() => navigate('/services/caregiver-training')}
-                  >
-                    Learn More
-                  </Button>
-                </CardActions>
-              </Card>
+          {services.map((service, index) => (
+            <Grid item xs={12} sm={6} md={4} key={index}>
+              <Paper
+                elevation={3}
+                sx={{
+                  p: 3,
+                  height: '100%',
+                  display: 'flex',
+                  flexDirection: 'column',
+                  transition: 'transform 0.3s ease-in-out',
+                  '&:hover': {
+                    transform: 'translateY(-8px)',
+                  },
+                  cursor: 'pointer',
+                  borderRadius: 2
+                }}
+                onClick={() => navigate(service.path)}
+              >
+                <Box sx={{ mb: 2 }}>
+                  {service.icon}
+                </Box>
+                <Typography
+                  variant="h6"
+                  component="h3"
+                  sx={{
+                    mb: 2,
+                    color: '#1E4D40',
+                    fontWeight: 600
+                  }}
+                >
+                  {service.title}
+                </Typography>
+                <Typography
+                  variant="body1"
+                  color="text.secondary"
+                  sx={{ mb: 2, flex: 1 }}
+                >
+                  {service.description}
+                </Typography>
+                <Button
+                  variant="contained"
+                  endIcon={<ArrowForwardIcon />}
+                  sx={{
+                    mt: 'auto',
+                    backgroundColor: '#E8F5E9',
+                    color: '#2E8B57',
+                    '&:hover': {
+                      backgroundColor: '#C8E6C9',
+                      transform: 'translateX(8px)'
+                    },
+                    transition: 'all 0.3s ease',
+                    textTransform: 'none',
+                    boxShadow: 'none'
+                  }}
+                >
+                  Learn More
+                </Button>
+              </Paper>
             </Grid>
           ))}
         </Grid>
       </Container>
     </Box>
   );
-}
+};
 
 export default HomePage; 

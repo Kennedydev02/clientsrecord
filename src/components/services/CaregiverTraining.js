@@ -34,6 +34,8 @@ import GroupIcon from '@mui/icons-material/Group';
 import TimerIcon from '@mui/icons-material/Timer';
 import EmojiObjectsIcon from '@mui/icons-material/EmojiObjects';
 import { serviceStyles } from '../../styles/serviceStyles';
+import ArrowForwardIcon from '@mui/icons-material/ArrowForward';
+import useScrollToTop from '../../hooks/useScrollToTop';
 
 const TabPanel = ({ children, value, index }) => {
   return (
@@ -73,6 +75,7 @@ const LearningPathStep = ({ step, index, color }) => (
 );
 
 function CaregiverTraining() {
+  useScrollToTop();
   const [tabValue, setTabValue] = useState(0);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -275,7 +278,14 @@ function CaregiverTraining() {
   };
 
   return (
-    <Box sx={serviceStyles.pageContainer}>
+    <Box 
+      sx={{ 
+        width: '100%',
+        minHeight: '100vh',
+        paddingTop: '120px',
+        backgroundColor: '#f8f9fa'
+      }}
+    >
       <Container maxWidth="lg">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -489,6 +499,44 @@ function CaregiverTraining() {
             </TabPanel>
           ))}
         </Paper>
+      </Container>
+
+      <Container maxWidth="lg" sx={{ mb: 8 }}>
+        <Box
+          sx={{
+            display: 'flex',
+            justifyContent: 'center',
+            mt: 6,
+            pt: 4,
+            borderTop: '1px solid rgba(0, 0, 0, 0.1)'
+          }}
+        >
+          <Button
+            variant="contained"
+            size="large"
+            endIcon={<ArrowForwardIcon />}
+            href="/contact" // or create a specific enrollment form page
+            sx={{
+              backgroundColor: '#2E8B57',
+              color: 'white',
+              py: 2,
+              px: 6,
+              fontSize: '1.1rem',
+              fontWeight: 600,
+              borderRadius: '30px',
+              textTransform: 'none',
+              boxShadow: '0 4px 12px rgba(46, 139, 87, 0.2)',
+              '&:hover': {
+                backgroundColor: '#1E4D40',
+                transform: 'translateY(-2px)',
+                boxShadow: '0 6px 16px rgba(46, 139, 87, 0.3)',
+              },
+              transition: 'all 0.3s ease'
+            }}
+          >
+            Enroll Now
+          </Button>
+        </Box>
       </Container>
     </Box>
   );

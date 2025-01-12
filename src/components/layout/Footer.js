@@ -5,177 +5,211 @@ import {
   Grid,
   Typography,
   Link,
-  Stack,
   IconButton,
-  Divider,
-  useTheme,
-  useMediaQuery
+  Stack
 } from '@mui/material';
-import { motion } from 'framer-motion';
-import FacebookIcon from '@mui/icons-material/Facebook';
-import TwitterIcon from '@mui/icons-material/Twitter';
-import LinkedInIcon from '@mui/icons-material/LinkedIn';
-import InstagramIcon from '@mui/icons-material/Instagram';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import PhoneIcon from '@mui/icons-material/Phone';
-import EmailIcon from '@mui/icons-material/Email';
+import {
+  Facebook,
+  Twitter,
+  Instagram,
+  LinkedIn,
+  Phone,
+  Email,
+  LocationOn
+} from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 
-function Footer() {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+const Footer = () => {
   const navigate = useNavigate();
 
-  const quickLinks = [
-    { title: 'Home', path: '/' },
-    { title: 'About Us', path: '/about' },
-    { title: 'Services', path: '/services' },
-    { title: 'Contact', path: '/contact' }
-  ];
+  const handleEmailClick = () => {
+    window.location.href = 'mailto:info@hudumacare.com';
+  };
 
-  const services = [
-    'Caregiver Training',
-    'Newcomer Support',
-    'Housing Assistance',
-    'Documentation Support',
-    'Employment Services'
-  ];
+  const handlePhoneClick = () => {
+    window.location.href = 'tel:+12533334444';
+  };
+
+  const handleLocationClick = () => {
+    window.open('https://maps.google.com/?q=30821+Pacific+Hwy+S,+Federal+Way,+WA+98003', '_blank');
+  };
 
   return (
     <Box
-      component="footer"
       sx={{
-        bgcolor: '#1a237e',
+        backgroundColor: '#1E4D40',
         color: 'white',
-        pt: 8,
+        pt: 6,
         pb: 4,
-        mt: 'auto'
       }}
     >
       <Container maxWidth="lg">
-        <Grid container spacing={4}>
+        <Grid container spacing={6}>
           {/* Company Info */}
-          <Grid item xs={12} md={4}>
-            <Typography variant="h6" sx={{ color: '#4CAF50', mb: 2 }}>
-              HUDUMA CENTER
+          <Grid item xs={12} sm={6} md={3}>
+            <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', mb: 3 }}>
+              Huduma Center
             </Typography>
-            <Typography variant="body2" sx={{ mb: 2 }}>
-              Supporting Communities, Empowering Lives
-            </Typography>
-            <Stack spacing={2}>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <LocationOnIcon sx={{ color: '#4CAF50' }} />
-                <Typography variant="body2">
-                  30821 Pacific Hwy S, Federal Way, WA 98003
+            <Stack spacing={2.5}>
+              <Box 
+                sx={{ 
+                  display: 'flex', 
+                  alignItems: 'flex-start', 
+                  gap: 1.5,
+                  cursor: 'pointer',
+                  '&:hover': { color: '#90caf9' }
+                }}
+                onClick={handleLocationClick}
+              >
+                <LocationOn sx={{ mt: 0.3 }} />
+                <Typography variant="body2" sx={{ lineHeight: 1.6 }}>
+                  30821 Pacific Hwy S,<br />
+                  Federal Way, WA 98003
                 </Typography>
               </Box>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <PhoneIcon sx={{ color: '#4CAF50' }} />
-                <Link 
-                  href="tel:+12064609022" 
-                  sx={{ color: 'white', textDecoration: 'none', '&:hover': { color: '#4CAF50' } }}
-                >
-                  206-460-9022
-                </Link>
+              <Box 
+                sx={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  gap: 1.5,
+                  cursor: 'pointer',
+                  '&:hover': { color: '#90caf9' }
+                }}
+                onClick={handlePhoneClick}
+              >
+                <Phone />
+                <Typography variant="body2">
+                  (206) 460-9022
+                </Typography>
               </Box>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <EmailIcon sx={{ color: '#4CAF50' }} />
-                <Link 
-                  href="mailto:info@hudumacenter.com"
-                  sx={{ color: 'white', textDecoration: 'none', '&:hover': { color: '#4CAF50' } }}
-                >
-                  info@hudumacenter.com
-                </Link>
+              <Box 
+                sx={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  gap: 1.5,
+                  cursor: 'pointer',
+                  '&:hover': { color: '#90caf9' }
+                }}
+                onClick={handleEmailClick}
+              >
+                <Email />
+                <Typography variant="body2">
+                  info@hudumacare.com
+                </Typography>
               </Box>
             </Stack>
           </Grid>
 
           {/* Quick Links */}
-          <Grid item xs={12} sm={6} md={4}>
-            <Typography variant="h6" sx={{ mb: 2 }}>
+          <Grid item xs={12} sm={6} md={3}>
+            <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', mb: 3 }}>
               Quick Links
             </Typography>
-            <Stack spacing={1}>
-              {quickLinks.map((link) => (
-                <motion.div
-                  key={link.title}
-                  whileHover={{ x: 5 }}
-                  whileTap={{ scale: 0.95 }}
+            <Stack spacing={2}>
+              {[
+                { text: 'Home', path: '/' },
+                { text: 'About Us', path: '/about' },
+                { text: 'Testimonials', path: '/testimonials' },
+                { text: 'Contact Us', path: '/contact' },
+                { text: 'Portal Login', path: '/login' }
+              ].map((link) => (
+                <Link 
+                  key={link.text}
+                  component="button"
+                  onClick={() => navigate(link.path)}
+                  sx={{ 
+                    color: 'white', 
+                    textDecoration: 'none', 
+                    textAlign: 'left',
+                    '&:hover': { color: '#90caf9' },
+                    transition: 'color 0.3s ease'
+                  }}
                 >
-                  <Link
-                    component="button"
-                    onClick={() => navigate(link.path)}
-                    sx={{
-                      color: 'white',
-                      textDecoration: 'none',
-                      '&:hover': { color: '#4CAF50' }
-                    }}
-                  >
-                    {link.title}
-                  </Link>
-                </motion.div>
+                  {link.text}
+                </Link>
               ))}
             </Stack>
           </Grid>
 
           {/* Services */}
-          <Grid item xs={12} sm={6} md={4}>
-            <Typography variant="h6" sx={{ mb: 2 }}>
+          <Grid item xs={12} sm={6} md={3}>
+            <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', mb: 3 }}>
               Our Services
             </Typography>
-            <Stack spacing={1}>
-              {services.map((service) => (
-                <motion.div
-                  key={service}
-                  whileHover={{ x: 5 }}
-                  whileTap={{ scale: 0.95 }}
+            <Stack spacing={2}>
+              {[
+                { text: 'Caregiver Training', path: '/services/caregiver-training' },
+                { text: 'Newcomer Support', path: '/services/newcomer-support' },
+                { text: 'Housing Assistance', path: '/services/housing-assistance' },
+                { text: 'Documentation Support', path: '/services/documentation-support' },
+                { text: 'Employment Services', path: '/services/employment-services' },
+                { text: 'Education Support', path: '/services/education-support' }
+              ].map((service) => (
+                <Link 
+                  key={service.text}
+                  component="button"
+                  onClick={() => navigate(service.path)}
+                  sx={{ 
+                    color: 'white', 
+                    textDecoration: 'none', 
+                    textAlign: 'left',
+                    '&:hover': { color: '#90caf9' },
+                    transition: 'color 0.3s ease'
+                  }}
                 >
-                  <Typography variant="body2">
-                    {service}
-                  </Typography>
-                </motion.div>
+                  {service.text}
+                </Link>
+              ))}
+            </Stack>
+          </Grid>
+
+          {/* Social Media */}
+          <Grid item xs={12} sm={6} md={3}>
+            <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', mb: 3 }}>
+              Connect With Us
+            </Typography>
+            <Stack direction="row" spacing={2}>
+              {[
+                { icon: <Facebook />, url: 'https://facebook.com/hudumacare' },
+                { icon: <Twitter />, url: 'https://twitter.com/hudumacare' },
+                { icon: <Instagram />, url: 'https://instagram.com/hudumacare' },
+                { icon: <LinkedIn />, url: 'https://linkedin.com/company/hudumacare' }
+              ].map((social, index) => (
+                <IconButton 
+                  key={index}
+                  href={social.url}
+                  target="_blank"
+                  sx={{ 
+                    color: 'white', 
+                    '&:hover': { 
+                      color: '#90caf9',
+                      transform: 'translateY(-2px)'
+                    },
+                    transition: 'all 0.3s ease'
+                  }}
+                >
+                  {social.icon}
+                </IconButton>
               ))}
             </Stack>
           </Grid>
         </Grid>
 
-        <Divider sx={{ my: 4, borderColor: 'rgba(255, 255, 255, 0.1)' }} />
-
-        {/* Bottom Section */}
-        <Box sx={{ 
-          display: 'flex', 
-          flexDirection: isMobile ? 'column' : 'row',
-          justifyContent: 'space-between',
-          alignItems: isMobile ? 'center' : 'flex-start',
-          gap: 2
-        }}>
-          <Typography variant="body2" sx={{ textAlign: isMobile ? 'center' : 'left' }}>
-            © {new Date().getFullYear()} Huduma Center. All rights reserved.
-          </Typography>
-
-          {/* Social Media Icons */}
-          <Stack direction="row" spacing={1}>
-            {[FacebookIcon, TwitterIcon, LinkedInIcon, InstagramIcon].map((Icon, index) => (
-              <motion.div
-                key={index}
-                whileHover={{ y: -3 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <IconButton
-                  sx={{
-                    color: 'white',
-                    '&:hover': { color: '#4CAF50' }
-                  }}
-                >
-                  <Icon />
-                </IconButton>
-              </motion.div>
-            ))}
-          </Stack>
-        </Box>
+        {/* Copyright */}
+        <Typography 
+          variant="body2" 
+          align="center" 
+          sx={{ 
+            mt: 6,
+            pt: 3,
+            borderTop: '1px solid rgba(255, 255, 255, 0.1)'
+          }}
+        >
+          © {new Date().getFullYear()} Huduma Center. All rights reserved.
+        </Typography>
       </Container>
     </Box>
   );
-}
+};
 
 export default Footer; 

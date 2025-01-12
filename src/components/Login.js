@@ -13,6 +13,7 @@ import {
 import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
+import useScrollToTop from '../hooks/useScrollToTop';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -22,6 +23,8 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const { login } = useAuth();
   const navigate = useNavigate();
+
+  useScrollToTop();
 
   async function handleSubmit(e) {
     e.preventDefault();
