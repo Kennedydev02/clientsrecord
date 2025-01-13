@@ -199,6 +199,12 @@ function Navbar() {
     </Box>
   );
 
+  const contactInfo = {
+    email: "info@hudumacenter.com",
+    phone: "206-460-9022",
+    address: "30821 Pacific Hwy S, Federal Way, WA 98003"
+  };
+
   return (
     <AppBar 
       position="fixed" 

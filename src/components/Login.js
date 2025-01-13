@@ -40,6 +40,11 @@ function Login() {
     }
   }
 
+  const helpSection = {
+    supportEmail: "info@hudumacenter.com",
+    supportPhone: "206-460-9022"
+  };
+
   return (
     <Container component="main" maxWidth="xs">
       <Box

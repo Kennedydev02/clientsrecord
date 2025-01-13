@@ -12,227 +12,268 @@ import {
   ListItemIcon,
   ListItemText,
   Divider,
+  TextField,
+  InputAdornment,
+  Badge,
+  Card,
+  CardContent,
+  IconButton,
 } from '@mui/material';
 import {
   Person as PersonIcon,
-  Assignment as AssignmentIcon,
-  Event as EventIcon,
-  ExitToApp as ExitToAppIcon,
+  School as SchoolIcon,
+  Payment as PaymentIcon,
+  HomeWork as HomeWorkIcon,
+  Assessment as AssessmentIcon,
+  Search as SearchIcon,
   Notifications as NotificationsIcon,
+  Add as AddIcon,
 } from '@mui/icons-material';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
-import useScrollToTop from '../hooks/useScrollToTop';
+import {
+  BarChart,
+  Bar,
+  LineChart,
+  Line,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  Legend,
+  ResponsiveContainer,
+} from 'recharts';
 
 function Dashboard() {
-  useScrollToTop();
-
-  const [error, setError] = useState('');
-  const { currentUser, logout } = useAuth();
+  const [searchQuery, setSearchQuery] = useState('');
+  const { currentUser } = useAuth();
   const navigate = useNavigate();
 
-  async function handleLogout() {
-    setError('');
-    try {
-      await logout();
-      navigate('/login');
-    } catch {
-      setError('Failed to log out');
+  // Mock data for dashboard stats
+  const stats = {
+    students: {
+      active: 45,
+      newEnrollments: 12,
+      graduating: 8
+    },
+    payments: {
+      totalCollected: 25000,
+      pending: 8500,
+      accommodation: 3500
+    },
+    accommodation: {
+      currentOccupants: 15,
+      revenue: 7500
     }
-  }
+  };
 
-  const menuItems = [
-    { text: 'Profile', icon: <PersonIcon />, path: '/profile' },
-    { text: 'Assignments', icon: <AssignmentIcon />, path: '/assignments' },
-    { text: 'Schedule', icon: <EventIcon />, path: '/schedule' },
-    { text: 'Notifications', icon: <NotificationsIcon />, path: '/notifications' },
+  // Mock data for charts
+  const revenueData = [
+    { month: 'Jan', amount: 15000 },
+    { month: 'Feb', amount: 18000 },
+    { month: 'Mar', amount: 20000 },
   ];
 
+  const enrollmentData = [
+    { month: 'Jan', students: 25 },
+    { month: 'Feb', students: 30 },
+    { month: 'Mar', students: 35 },
+  ];
+
+  const quickActions = [
+    {
+      title: 'New Student',
+      icon: <PersonIcon />,
+      path: '/dashboard/students/new',
+      color: '#1A237E',
+    },
+    {
+      title: 'Record Payment',
+      icon: <PaymentIcon />,
+      path: '/dashboard/payments/new',
+      color: '#2E7D32',
+    },
+    {
+      title: 'Assign Accommodation',
+      icon: <HomeWorkIcon />,
+      path: '/dashboard/accommodation/assign',
+      color: '#C62828',
+    },
+    {
+      title: 'View Reports',
+      icon: <AssessmentIcon />,
+      path: '/dashboard/reports',
+      color: '#00695C',
+    },
+  ];
+
+  const handleNavigation = (path) => {
+    console.log('Navigating to:', path); // Keep this for debugging
+    navigate(path);
+  };
+
   return (
-    <Box sx={{ backgroundColor: '#f5f5f5', minHeight: '100vh', pt: 8 }}>
-      <Container>
-        <Grid container spacing={3}>
-          {/* Sidebar */}
-          <Grid item xs={12} md={3}>
-            <Paper 
-              elevation={3}
-              sx={{ 
-                p: 2,
-                backgroundColor: 'white',
-                borderRadius: 2
-              }}
-            >
-              <Box sx={{ textAlign: 'center', mb: 3 }}>
-                <Avatar 
-                  sx={{ 
-                    width: 80, 
-                    height: 80, 
-                    margin: '0 auto',
-                    backgroundColor: '#1A237E'
-                  }}
-                >
-                  {currentUser?.email?.charAt(0).toUpperCase()}
-                </Avatar>
-                <Typography variant="h6" sx={{ mt: 2, color: '#1A237E' }}>
-                  {currentUser?.email}
-                </Typography>
-              </Box>
-              
-              <Divider sx={{ mb: 2 }} />
-              
-              <List>
-                {menuItems.map((item) => (
-                  <ListItem 
-                    button 
-                    key={item.text}
-                    onClick={() => navigate(item.path)}
-                    sx={{
-                      borderRadius: 1,
-                      mb: 1,
-                      '&:hover': {
-                        backgroundColor: '#1A237E10',
-                      }
-                    }}
-                  >
-                    <ListItemIcon sx={{ color: '#1A237E' }}>
-                      {item.icon}
-                    </ListItemIcon>
-                    <ListItemText 
-                      primary={item.text}
-                      sx={{ 
-                        '& .MuiTypography-root': { 
-                          color: '#1A237E'
-                        }
-                      }}
-                    />
-                  </ListItem>
-                ))}
-                <ListItem 
-                  button 
-                  onClick={handleLogout}
-                  sx={{
-                    borderRadius: 1,
-                    color: '#d32f2f',
-                    '&:hover': {
-                      backgroundColor: '#d32f2f10',
-                    }
-                  }}
-                >
-                  <ListItemIcon sx={{ color: '#d32f2f' }}>
-                    <ExitToAppIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Logout" />
-                </ListItem>
-              </List>
-            </Paper>
+    <Box sx={{ p: 3 }}>
+      {/* Header Section */}
+      <Box sx={{ mb: 4 }}>
+        <Grid container spacing={2} alignItems="center">
+          <Grid item xs>
+            <Typography variant="h4" gutterBottom>
+              Welcome back, {currentUser?.email}
+            </Typography>
+            <Typography color="textSecondary">
+              Here's what's happening with your school today.
+            </Typography>
           </Grid>
-
-          {/* Main Content */}
-          <Grid item xs={12} md={9}>
-            <Paper 
-              elevation={3}
-              sx={{ 
-                p: 3,
-                backgroundColor: 'white',
-                borderRadius: 2
+          <Grid item>
+            <TextField
+              placeholder="Search..."
+              size="small"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
               }}
-            >
-              <Typography variant="h4" sx={{ color: '#1A237E', mb: 3 }}>
-                Welcome to Your Dashboard
-              </Typography>
-              
-              <Grid container spacing={3}>
-                <Grid item xs={12} sm={6} md={4}>
-                  <Paper 
-                    elevation={2}
-                    sx={{ 
-                      p: 2, 
-                      textAlign: 'center',
-                      backgroundColor: '#1A237E10',
-                      borderRadius: 2
-                    }}
-                  >
-                    <AssignmentIcon sx={{ fontSize: 40, color: '#1A237E' }} />
-                    <Typography variant="h6" sx={{ mt: 1, color: '#1A237E' }}>
-                      Active Tasks
-                    </Typography>
-                    <Typography variant="h4" sx={{ color: '#1A237E' }}>
-                      5
-                    </Typography>
-                  </Paper>
-                </Grid>
-
-                <Grid item xs={12} sm={6} md={4}>
-                  <Paper 
-                    elevation={2}
-                    sx={{ 
-                      p: 2, 
-                      textAlign: 'center',
-                      backgroundColor: '#1A237E10',
-                      borderRadius: 2
-                    }}
-                  >
-                    <EventIcon sx={{ fontSize: 40, color: '#1A237E' }} />
-                    <Typography variant="h6" sx={{ mt: 1, color: '#1A237E' }}>
-                      Upcoming Events
-                    </Typography>
-                    <Typography variant="h4" sx={{ color: '#1A237E' }}>
-                      3
-                    </Typography>
-                  </Paper>
-                </Grid>
-
-                <Grid item xs={12} sm={6} md={4}>
-                  <Paper 
-                    elevation={2}
-                    sx={{ 
-                      p: 2, 
-                      textAlign: 'center',
-                      backgroundColor: '#1A237E10',
-                      borderRadius: 2
-                    }}
-                  >
-                    <NotificationsIcon sx={{ fontSize: 40, color: '#1A237E' }} />
-                    <Typography variant="h6" sx={{ mt: 1, color: '#1A237E' }}>
-                      Notifications
-                    </Typography>
-                    <Typography variant="h4" sx={{ color: '#1A237E' }}>
-                      2
-                    </Typography>
-                  </Paper>
-                </Grid>
-              </Grid>
-
-              {/* Recent Activity Section */}
-              <Box sx={{ mt: 4 }}>
-                <Typography variant="h5" sx={{ color: '#1A237E', mb: 2 }}>
-                  Recent Activity
-                </Typography>
-                <List>
-                  {[1, 2, 3].map((item) => (
-                    <ListItem 
-                      key={item}
-                      sx={{ 
-                        backgroundColor: '#f8f9fa',
-                        mb: 1,
-                        borderRadius: 1
-                      }}
-                    >
-                      <ListItemIcon>
-                        <AssignmentIcon color="primary" />
-                      </ListItemIcon>
-                      <ListItemText 
-                        primary={`Task ${item} completed`}
-                        secondary="2 hours ago"
-                      />
-                    </ListItem>
-                  ))}
-                </List>
-              </Box>
-            </Paper>
+            />
+          </Grid>
+          <Grid item>
+            <IconButton>
+              <Badge badgeContent={4} color="error">
+                <NotificationsIcon />
+              </Badge>
+            </IconButton>
           </Grid>
         </Grid>
-      </Container>
+      </Box>
+
+      {/* Quick Stats */}
+      <Grid container spacing={3} sx={{ mb: 4 }}>
+        <Grid item xs={12} sm={6} md={3}>
+          <Card>
+            <CardContent>
+              <Typography color="textSecondary" gutterBottom>
+                Active Students
+              </Typography>
+              <Typography variant="h4">{stats.students.active}</Typography>
+              <Typography color="success.main" variant="body2">
+                +{stats.students.newEnrollments} new enrollments
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <Card>
+            <CardContent>
+              <Typography color="textSecondary" gutterBottom>
+                Total Revenue
+              </Typography>
+              <Typography variant="h4">${stats.payments.totalCollected}</Typography>
+              <Typography color="error.main" variant="body2">
+                ${stats.payments.pending} pending
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <Card>
+            <CardContent>
+              <Typography color="textSecondary" gutterBottom>
+                Accommodation
+              </Typography>
+              <Typography variant="h4">{stats.accommodation.currentOccupants}</Typography>
+              <Typography color="info.main" variant="body2">
+                ${stats.accommodation.revenue} revenue
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+        <Grid item xs={12} sm={6} md={3}>
+          <Card>
+            <CardContent>
+              <Typography color="textSecondary" gutterBottom>
+                Graduating Soon
+              </Typography>
+              <Typography variant="h4">{stats.students.graduating}</Typography>
+              <Typography color="success.main" variant="body2">
+                In the next 7 days
+              </Typography>
+            </CardContent>
+          </Card>
+        </Grid>
+      </Grid>
+
+      {/* Quick Actions */}
+      <Grid container spacing={3} sx={{ mb: 4 }}>
+        {quickActions.map((action) => (
+          <Grid item xs={12} sm={6} md={3} key={action.title}>
+            <Button
+              fullWidth
+              variant="contained"
+              startIcon={action.icon}
+              onClick={() => handleNavigation(action.path)}
+              sx={{
+                backgroundColor: action.color,
+                '&:hover': {
+                  backgroundColor: action.color,
+                  opacity: 0.9,
+                },
+                py: 2,
+                textTransform: 'none', // Makes the text look better
+                fontWeight: 500,
+              }}
+            >
+              {action.title}
+            </Button>
+          </Grid>
+        ))}
+      </Grid>
+
+      {/* Charts */}
+      <Grid container spacing={3}>
+        <Grid item xs={12} md={8}>
+          <Paper sx={{ p: 3 }}>
+            <Typography variant="h6" gutterBottom>
+              Revenue Overview
+            </Typography>
+            <ResponsiveContainer width="100%" height={300}>
+              <BarChart data={revenueData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="amount" fill="#1A237E" name="Revenue" />
+              </BarChart>
+            </ResponsiveContainer>
+          </Paper>
+        </Grid>
+        <Grid item xs={12} md={4}>
+          <Paper sx={{ p: 3 }}>
+            <Typography variant="h6" gutterBottom>
+              Enrollment Trends
+            </Typography>
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart data={enrollmentData}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="month" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Line
+                  type="monotone"
+                  dataKey="students"
+                  stroke="#1A237E"
+                  name="Students"
+                />
+              </LineChart>
+            </ResponsiveContainer>
+          </Paper>
+        </Grid>
+      </Grid>
     </Box>
   );
 }
