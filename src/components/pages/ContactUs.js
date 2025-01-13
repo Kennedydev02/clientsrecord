@@ -77,22 +77,25 @@ const ContactUs = () => {
     {
       icon: <LocationOnIcon />,
       title: 'Our Location',
-      details: ['123 Kimathi Street', 'Nairobi, Kenya']
+      details: ['30821 Pacific Hwy S', 'Federal Way, WA 98003']
     },
     {
       icon: <PhoneIcon />,
       title: 'Phone Numbers',
-      details: ['+254 700 000000', '+254 733 000000']
+      details: ['206-460-9022']
     },
     {
       icon: <EmailIcon />,
       title: 'Email Address',
-      details: ['info@hudumacentre.co.ke', 'support@hudumacentre.co.ke']
+      details: ['info@hudumacenter.com']
     },
     {
       icon: <AccessTimeIcon />,
       title: 'Working Hours',
-      details: ['Monday - Friday: 8:00 AM - 6:00 PM', 'Saturday: 9:00 AM - 1:00 PM']
+      details: [
+        'Monday - Friday: 9:00 AM - 5:00 PM',
+        'Saturday - Sunday: By Appointment'
+      ]
     }
   ];
 

@@ -16,6 +16,7 @@ import EducationSupport from './components/services/EducationSupport';
 import Login from './components/Login';
 import { AuthProvider } from './contexts/AuthContext';
 import Dashboard from './components/Dashboard';
+import ContactInfo from './components/layout/ContactInfo';
 
 function App() {
   return (
@@ -54,7 +55,13 @@ function App() {
               <Route path="/dashboard" element={<Dashboard />} />
             </Routes>
           </Box>
-          <Footer />
+          <Footer>
+            <ContactInfo>
+              <a href="mailto:info@hudumacenter.com">info@hudumacenter.com</a>
+              <a href="tel:206-460-9022">206-460-9022</a>
+              <address>30821 Pacific Hwy S, Federal Way, WA 98003</address>
+            </ContactInfo>
+          </Footer>
         </Box>
       </AuthProvider>
     </Router>
