@@ -5,6 +5,7 @@ import DashboardLayout from './components/DashboardLayout';
 import Dashboard from './components/Dashboard';
 import StudentForm from './components/students/StudentForm';
 import StudentList from './components/students/StudentList';
+import StudentDetails from './components/students/StudentDetails';
 import PaymentForm from './components/payments/PaymentForm';
 import PaymentList from './components/payments/PaymentList';
 import AccommodationForm from './components/accommodation/AccommodationForm';
@@ -46,6 +47,7 @@ function App() {
                   {/* Student routes */}
                   <Route path="students" element={<StudentList />} />
                   <Route path="students/new" element={<StudentForm />} />
+                  <Route path="students/:id" element={<StudentDetails />} />
                   <Route path="students/edit/:id" element={<StudentForm />} />
                   
                   {/* Course routes */}
