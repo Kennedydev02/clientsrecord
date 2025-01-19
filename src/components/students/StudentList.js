@@ -1,4 +1,5 @@
 import React from 'react';
+import Axi0s from 'axios';
 import {
   Box,
   Paper,
@@ -67,6 +68,17 @@ function StudentList() {
     }
   };
 
+  const getStudents = () => {
+    const response =  Axi0s.get('https://api-hudumacenter.fly.dev/students');
+    console.log(response.data);
+    
+    if (response.data.success) {
+      return response.data.students;
+    }else{
+      return [];
+    }
+  };
+
   const getBalanceColor = (balance) => {
     if (balance === 0) return 'success';
     if (balance < 1000) return 'warning';
@@ -101,7 +113,7 @@ function StudentList() {
             </TableRow>
           </TableHead>
           <TableBody>
-            {students.map((student) => (
+            {getStudents().map((student) => (
               <TableRow key={student.id}>
                 <TableCell>{student.name}</TableCell>
                 <TableCell>{student.course}</TableCell>

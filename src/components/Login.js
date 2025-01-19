@@ -14,6 +14,7 @@ import { Visibility, VisibilityOff } from '@mui/icons-material';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import useScrollToTop from '../hooks/useScrollToTop';
+import { auth } from '../firebase';
 
 function Login() {
   const [email, setEmail] = useState('');
@@ -32,6 +33,8 @@ function Login() {
       setError('');
       setLoading(true);
       await login(email, password);
+      let session = { loggedIn:true, uuid:auth.currentUser.uid, email:auth.currentUser.email };
+      localStorage.setItem('session',session);
       navigate('/dashboard');
     } catch (error) {
       setError('Failed to sign in. Please check your credentials.');

@@ -21,6 +21,7 @@ export function AuthProvider({ children }) {
   }
 
   function logout() {
+    localStorage.removeItem('session');
     return signOut(auth);
   }
 
